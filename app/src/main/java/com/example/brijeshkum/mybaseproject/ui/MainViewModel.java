@@ -48,6 +48,7 @@ public class MainViewModel extends ViewModel {
                     public void onSuccess(List<Country> list) {
                         listCountry.postValue(list);
                         repository.saveCountryLocal(list);
+                        isLoading.set(false);
                     }
 
                     @Override
