@@ -112,6 +112,12 @@ public class NetModule {
 
     @Provides
     @Singleton
+    NetManager provideNetManager(Application application){
+        return new NetManager(application.getApplicationContext());
+    }
+
+    @Provides
+    @Singleton
     AppDatabase provideAppDatabase(Application application){
         return Room.databaseBuilder(application, AppDatabase.class, "my_db").build();
     }

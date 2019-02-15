@@ -30,6 +30,6 @@ public interface ApiEndpointInterface {
 
     // Request method and URL specified in the annotation
     // Callback for the parsed response is the last parameter
-    @GET("aptc_getCommonMasters/{lang_id}/{id}")
+    @GET("aptc_getCommonMasters/1/{id}")
     Single<List<Country>> getCountries(@Path(value = "id", encoded = true) int id);
 }

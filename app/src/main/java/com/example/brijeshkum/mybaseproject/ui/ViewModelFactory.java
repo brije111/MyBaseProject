@@ -9,10 +9,10 @@ import com.example.brijeshkum.mybaseproject.db.Repository;
 
 import javax.inject.Inject;
 
-public class VMProvider implements ViewModelProvider.Factory {
+public class ViewModelFactory implements ViewModelProvider.Factory {
 
     Repository repository;
-    public VMProvider(Repository repository) {
+    public ViewModelFactory(Repository repository) {
         this.repository=repository;
     }
 

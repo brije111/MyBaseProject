@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.example.brijeshkum.mybaseproject.di.AppComponent;
 import com.example.brijeshkum.mybaseproject.di.AppModule;
+import com.example.brijeshkum.mybaseproject.di.DaggerAppComponent;
 import com.example.brijeshkum.mybaseproject.di.NetModule;
 
 public class MyApp extends Application {

@@ -19,7 +19,7 @@ public class Repository {
     }
 
     public Single<List<Country>> getCountries(){
-        if ( /*netManager.get()*/true)
+        if (netManager.isConnected())
             return remoteRepository.getCountries();
         else return localRepository.getCountries();
     }

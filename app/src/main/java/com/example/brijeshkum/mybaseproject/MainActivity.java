@@ -23,7 +23,7 @@ import com.example.brijeshkum.mybaseproject.databinding.ActivityMainBinding;
 import com.example.brijeshkum.mybaseproject.db.Repository;
 import com.example.brijeshkum.mybaseproject.db.model.Country;
 import com.example.brijeshkum.mybaseproject.ui.MainViewModel;
-import com.example.brijeshkum.mybaseproject.ui.VMProvider;
+import com.example.brijeshkum.mybaseproject.ui.ViewModelFactory;
 
 import java.util.List;
 
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity
         //setContentView(R.layout.activity_main);
         final ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         //init View Model
-        final MainViewModel viewModel = ViewModelProviders.of(this, new VMProvider(repository))
+        final MainViewModel viewModel = ViewModelProviders.of(this, new ViewModelFactory(repository))
                 .get(MainViewModel.class);
         binding.setViewModel(viewModel);
         binding.executePendingBindings();
