@@ -41,7 +41,7 @@ public class NetModule {
         this.mBaseUrl = baseUrl;
     }
 
-    // Dagger will only look for methods annotated with @Provides
+    // Dagger will only look for methods annotatRepositoryed with @Provides
     @Provides
     @Singleton
     // Application reference must come from AppModule.class
@@ -88,6 +88,8 @@ public class NetModule {
                 .build();
         //return retrofit;
     }
+
+
 
     @Provides
     @Singleton

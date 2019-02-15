@@ -31,8 +31,9 @@ import javax.inject.Inject;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    @Inject
-    Repository repository;
+
+    @Inject Repository repository;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -11,9 +11,9 @@ import javax.inject.Inject;
 
 public class ViewModelFactory implements ViewModelProvider.Factory {
 
-    Repository repository;
+    private Repository repository;
     public ViewModelFactory(Repository repository) {
-        this.repository=repository;
+        this.repository = repository;
     }
 
     @NonNull

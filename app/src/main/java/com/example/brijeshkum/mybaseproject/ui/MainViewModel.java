@@ -9,6 +9,9 @@ import com.example.brijeshkum.mybaseproject.db.model.Country;
 
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
@@ -21,7 +24,7 @@ public class MainViewModel extends ViewModel {
 
     private ObservableBoolean isLoading = new ObservableBoolean();
 
-    public MainViewModel(Repository repository) {
+    MainViewModel(Repository repository) {
         this.repository = repository;
     }
 
