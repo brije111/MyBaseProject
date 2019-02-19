@@ -12,6 +12,8 @@ import com.example.brijeshkum.mybaseproject.db.AppDatabase;
 import com.example.brijeshkum.mybaseproject.db.LocalRepository;
 import com.example.brijeshkum.mybaseproject.db.RemoteRepository;
 import com.example.brijeshkum.mybaseproject.db.Repository;
+import com.example.brijeshkum.mybaseproject.ui.MainViewModel;
+import com.example.brijeshkum.mybaseproject.ui.ViewModelFactory;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.FieldNamingPolicy;
@@ -19,6 +21,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.text.SimpleDateFormat;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Executor;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
 
@@ -126,20 +133,40 @@ public class NetModule {
 
     @Provides
     @Singleton
-    LocalRepository provideLocalRepository(AppDatabase appDatabase){
-        return new LocalRepository(appDatabase);
+    Executor provideExecutor(){
+      /*
+       * Gets the number of available cores
+       * (not always the same as the maximum number of cores)
+       */
+      int NUMBER_OF_CORES =
+          Runtime.getRuntime().availableProcessors();
+      // Sets the amount of time an idle thread waits before terminating
+      int KEEP_ALIVE_TIME = 1;
+      // Sets the Time Unit to seconds
+      TimeUnit KEEP_ALIVE_TIME_UNIT = TimeUnit.SECONDS;
+      // A queue of Runnables
+      BlockingQueue<Runnable> mDecodeWorkQueue;
+      // Instantiates the queue of Runnables as a LinkedBlockingQueue
+      mDecodeWorkQueue = new LinkedBlockingQueue<Runnable>();
+      // Creates a thread pool manager
+        return new ThreadPoolExecutor(
+            NUMBER_OF_CORES,       // Initial pool size
+            NUMBER_OF_CORES,       // Max pool size
+            KEEP_ALIVE_TIME,
+            KEEP_ALIVE_TIME_UNIT,
+            mDecodeWorkQueue);
     }
 
     @Provides
     @Singleton
-    RemoteRepository provideRemoteRepository(ApiEndpointInterface apiEndpointInterface, SharedPreferences preferences){
-        return new RemoteRepository(apiEndpointInterface, preferences);
+    Repository provideRepository(Executor executor, AppDatabase appDatabase, ApiEndpointInterface
+        apiEndpointInterface){
+        return new Repository(executor, appDatabase, apiEndpointInterface);
     }
 
     @Provides
-    @Singleton
-    Repository provideRepository(NetManager netManager, LocalRepository localRepository, RemoteRepository remoteRepository){
-        return new Repository(netManager, localRepository, remoteRepository);
+    ViewModelFactory provideViewModelFactory(Repository repository) {
+      return new ViewModelFactory(repository);
     }
 
 }

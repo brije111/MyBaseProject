@@ -1,7 +1,9 @@
 package com.example.brijeshkum.mybaseproject.ui;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import android.databinding.Observable;
 import android.databinding.ObservableBoolean;
 import android.util.Log;
 import com.example.brijeshkum.mybaseproject.db.Repository;
@@ -10,38 +12,40 @@ import com.example.brijeshkum.mybaseproject.db.model.Country;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.observers.DisposableSingleObserver;
-import io.reactivex.schedulers.Schedulers;
+//import io.reactivex.android.schedulers.AndroidSchedulers;
+//import io.reactivex.observers.DisposableSingleObserver;
+//import io.reactivex.schedulers.Schedulers;
 
 public class MainViewModel extends ViewModel {
 
     private static final String TAG = "RegistrationViewModel";
-    private Repository repository;
-    private MutableLiveData<List<Country>> listCountry;
+    private final Repository repository;
+    private LiveData<List<Country>> listCountry;
 
-    private ObservableBoolean isLoading = new ObservableBoolean();
-
-    MainViewModel(Repository repository) {
+    public MainViewModel(Repository repository) {
         this.repository = repository;
     }
 
-    public ObservableBoolean getIsLoading() {
-        return isLoading;
+  public void init() {
+    if (this.listCountry != null) {
+      // ViewModel is created on a per-Fragment basis, so the userId
+      // doesn't change.
+      return;
     }
+    listCountry = repository.getCountries();
+  }
 
 
-    public MutableLiveData<List<Country>> getListCountry() {
-        if (listCountry==null){
-            listCountry = new MutableLiveData<>();
-            loadCountries();
-        }
+  public LiveData<List<Country>> getListCountry() {
         return listCountry;
     }
 
-    private void loadCountries(){
+  public ObservableBoolean isLoading() {
+    return repository.getIsLoading();
+  }
+
+    /*private void loadCountries(){
         isLoading.set(true);
         repository.getCountries()
                 .subscribeOn(Schedulers.io())
@@ -60,5 +64,5 @@ public class MainViewModel extends ViewModel {
                         Log.e(TAG, "onError: ", e);
                     }
                 });
-    }
+    }*/
 }

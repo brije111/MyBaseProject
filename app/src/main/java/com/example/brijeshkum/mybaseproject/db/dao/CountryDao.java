@@ -1,5 +1,6 @@
 package com.example.brijeshkum.mybaseproject.db.dao;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
@@ -24,7 +25,7 @@ public interface CountryDao {
      * @return the user from the table
      */
     @Query("SELECT * FROM country")
-    Single<List<Country>> getAll();
+    LiveData<List<Country>> getAll();
 
     /**
      * Insert a user in the database. If the user already exists, replace it.
@@ -39,5 +40,6 @@ public interface CountryDao {
      */
     @Query("DELETE FROM country")
     void deleteAll();
+
 }
 

@@ -32,7 +32,8 @@ import javax.inject.Inject;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    @Inject Repository repository;
+    @Inject
+    ViewModelFactory mViewModelFactory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +42,8 @@ public class MainActivity extends AppCompatActivity
         //setContentView(R.layout.activity_main);
         final ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         //init View Model
-        final MainViewModel viewModel = ViewModelProviders.of(this, new ViewModelFactory(repository))
-                .get(MainViewModel.class);
+        MainViewModel viewModel = ViewModelProviders.of(this,  mViewModelFactory).get(MainViewModel.class);
+        viewModel.init();
         binding.setViewModel(viewModel);
         binding.executePendingBindings();
 
@@ -67,10 +68,11 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        viewModel.getIsLoading().addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+        viewModel.isLoading().addOnPropertyChangedCallback(new Observable
+            .OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
-                if (viewModel.getIsLoading().get())
+                if (viewModel.isLoading().get())
                     binding.appBarMain.progressBar.setVisibility(View.VISIBLE);
                 else binding.appBarMain.progressBar.setVisibility(View.GONE);
             }
