@@ -4,15 +4,11 @@ import android.app.Application;
 import android.arch.persistence.room.Room;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.provider.SyncStateContract;
 
 import com.example.brijeshkum.mybaseproject.NetManager;
-import com.example.brijeshkum.mybaseproject.db.ApiEndpointInterface;
-import com.example.brijeshkum.mybaseproject.db.AppDatabase;
-import com.example.brijeshkum.mybaseproject.db.LocalRepository;
-import com.example.brijeshkum.mybaseproject.db.RemoteRepository;
+import com.example.brijeshkum.mybaseproject.db.MyRoomDatabase;
+import com.example.brijeshkum.mybaseproject.db.WebServices;
 import com.example.brijeshkum.mybaseproject.db.Repository;
-import com.example.brijeshkum.mybaseproject.ui.MainViewModel;
 import com.example.brijeshkum.mybaseproject.ui.ViewModelFactory;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -100,8 +96,8 @@ public class NetModule {
 
     @Provides
     @Singleton
-    ApiEndpointInterface provideApiEndpointInterface(Retrofit retrofit) {
-        return retrofit.create(ApiEndpointInterface.class);
+    WebServices provideApiEndpointInterface(Retrofit retrofit) {
+        return retrofit.create(WebServices.class);
     }
 
     @Provides
@@ -127,8 +123,8 @@ public class NetModule {
 
     @Provides
     @Singleton
-    AppDatabase provideAppDatabase(Application application){
-        return Room.databaseBuilder(application, AppDatabase.class, "my_db").build();
+    MyRoomDatabase provideAppDatabase(Application application){
+        return Room.databaseBuilder(application, MyRoomDatabase.class, "my_db").build();
     }
 
     @Provides
@@ -159,9 +155,9 @@ public class NetModule {
 
     @Provides
     @Singleton
-    Repository provideRepository(Executor executor, AppDatabase appDatabase, ApiEndpointInterface
-        apiEndpointInterface){
-        return new Repository(executor, appDatabase, apiEndpointInterface);
+    Repository provideRepository(Executor executor, MyRoomDatabase myRoomDatabase, WebServices
+            webServices){
+        return new Repository(executor, myRoomDatabase, webServices);
     }
 
     @Provides

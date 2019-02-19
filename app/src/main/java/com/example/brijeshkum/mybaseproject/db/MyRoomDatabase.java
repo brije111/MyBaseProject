@@ -27,9 +27,9 @@ import com.example.brijeshkum.mybaseproject.db.model.Country;
  * The Room database that contains the Users table
  */
 @Database(entities = {Country.class}, version = 1)
-public abstract class AppDatabase extends RoomDatabase {
+public abstract class MyRoomDatabase extends android.arch.persistence.room.RoomDatabase {
 
-    //private static volatile AppDatabase INSTANCE;
+    //private static volatile MyRoomDatabase INSTANCE;
     public abstract CountryDao countryDao();
 
 }

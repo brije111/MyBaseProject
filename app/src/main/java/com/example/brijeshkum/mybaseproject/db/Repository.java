@@ -3,7 +3,6 @@ package com.example.brijeshkum.mybaseproject.db;
 import android.arch.lifecycle.LiveData;
 import android.databinding.ObservableBoolean;
 
-import com.example.brijeshkum.mybaseproject.NetManager;
 import com.example.brijeshkum.mybaseproject.db.model.Country;
 
 import java.io.IOException;
@@ -12,14 +11,13 @@ import java.util.concurrent.Executor;
 
 import javax.inject.Inject;
 
-import io.reactivex.Single;
 import retrofit2.Response;
 
 public class Repository {
   private static final int FRESH_TIMEOUT = 10;
   private final Executor executor;
-    private final AppDatabase mAppDatabase;
-    private final ApiEndpointInterface mApiEndpointInterface;
+    private final MyRoomDatabase mMyRoomDatabase;
+    private final WebServices mWebServices;
 
   private ObservableBoolean isLoading = new ObservableBoolean();
   public ObservableBoolean getIsLoading() {
@@ -27,16 +25,16 @@ public class Repository {
   }
 
     @Inject
-  public Repository(Executor executor, AppDatabase appDatabase, ApiEndpointInterface apiEndpointInterface) {
+  public Repository(Executor executor, MyRoomDatabase myRoomDatabase, WebServices webServices) {
     this.executor = executor;
-    mAppDatabase = appDatabase;
-    mApiEndpointInterface = apiEndpointInterface;
+    mMyRoomDatabase = myRoomDatabase;
+    mWebServices = webServices;
   }
 
   public LiveData<List<Country>> getCountries() {
     refreshCountry();
     // Returns a LiveData object directly from the database.
-    return mAppDatabase.countryDao().getAll();
+    return mMyRoomDatabase.countryDao().getAll();
   }
 
   private void refreshCountry() {
@@ -49,9 +47,10 @@ public class Repository {
         // Refreshes the data.
       Response<List<Country>> response = null;
       try {
-        response = mApiEndpointInterface.getCountries(4).execute();
+        response = mWebServices.getCountries(4).execute();
       } catch (IOException e) {
         e.printStackTrace();
+        return;
       }
 
       // Check for errors here.
@@ -62,7 +61,7 @@ public class Repository {
         for (int i = 0; i < response.body().size(); i++) {
           countries[i] = response.body().get(i);
         }
-        mAppDatabase.countryDao().insertAll(countries);
+        mMyRoomDatabase.countryDao().insertAll(countries);
       //}
     });
   }
