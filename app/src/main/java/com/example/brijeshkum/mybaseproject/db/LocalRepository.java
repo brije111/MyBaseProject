@@ -1,5 +1,6 @@
 package com.example.brijeshkum.mybaseproject.db;
 
+import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
 
 import com.example.brijeshkum.mybaseproject.db.model.Country;
@@ -16,7 +17,7 @@ public class LocalRepository {
        this.appDatabase = appDatabase;
    }
 
-   Single<List<Country>> getCountries(){
+   LiveData<List<Country>> getCountries(){
         return appDatabase.countryDao().getAll();
     }
 
@@ -32,4 +33,8 @@ public class LocalRepository {
            }
        });
    }
+
+  public AppDatabase getAppDatabase() {
+    return appDatabase;
+  }
 }

@@ -4,9 +4,11 @@ import android.content.SharedPreferences;
 
 import com.example.brijeshkum.mybaseproject.db.model.Country;
 
+import java.util.Calendar;
 import java.util.List;
 
 import io.reactivex.Single;
+import retrofit2.Call;
 
 public class RemoteRepository {
 
@@ -19,7 +21,8 @@ public class RemoteRepository {
         this.preferences = preferences;
     }
 
-    Single<List<Country>> getCountries(){
+
+    Call<List<Country>> getCountries(){
         return apiEndpointInterface.getCountries(4);
     }
 }

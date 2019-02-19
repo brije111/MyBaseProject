@@ -5,6 +5,7 @@ import com.example.brijeshkum.mybaseproject.db.model.Country;
 import java.util.List;
 
 import io.reactivex.Single;
+import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
@@ -31,5 +32,5 @@ public interface ApiEndpointInterface {
     // Request method and URL specified in the annotation
     // Callback for the parsed response is the last parameter
     @GET("aptc_getCommonMasters/1/{id}")
-    Single<List<Country>> getCountries(@Path(value = "id", encoded = true) int id);
+    Call<List<Country>> getCountries(@Path(value = "id", encoded = true) int id);
 }
