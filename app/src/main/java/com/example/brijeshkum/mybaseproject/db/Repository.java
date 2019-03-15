@@ -1,7 +1,7 @@
 package com.example.brijeshkum.mybaseproject.db;
 
 import android.arch.lifecycle.LiveData;
-import android.databinding.ObservableBoolean;
+//import android.databinding.ObservableBoolean;
 
 import com.example.brijeshkum.mybaseproject.db.model.Country;
 
@@ -19,10 +19,10 @@ public class Repository {
     private final MyRoomDatabase mMyRoomDatabase;
     private final WebServices mWebServices;
 
-  private ObservableBoolean isLoading = new ObservableBoolean();
-  public ObservableBoolean getIsLoading() {
-    return isLoading;
-  }
+  //private ObservableBoolean isLoading = new ObservableBoolean();
+  //public ObservableBoolean getIsLoading() {
+    //return isLoading;
+  //}
 
     @Inject
   public Repository(Executor executor, MyRoomDatabase myRoomDatabase, WebServices webServices) {

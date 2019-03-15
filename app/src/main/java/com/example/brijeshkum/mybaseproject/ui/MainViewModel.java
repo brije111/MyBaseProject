@@ -4,7 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.databinding.Observable;
-import android.databinding.ObservableBoolean;
+//import android.databinding.ObservableBoolean;
 import android.util.Log;
 import com.example.brijeshkum.mybaseproject.db.Repository;
 import com.example.brijeshkum.mybaseproject.db.model.Country;
@@ -41,9 +41,9 @@ public class MainViewModel extends ViewModel {
         return listCountry;
     }
 
-  public ObservableBoolean isLoading() {
+  /*public ObservableBoolean isLoading() {
     return repository.getIsLoading();
-  }
+  }*/
 
     /*private void loadCountries(){
         isLoading.set(true);
