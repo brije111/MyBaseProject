@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout >
+    <data >
+        <import type="android.view.View"/>
+        <variable
+            name="viewModel"
+            type="com.example.brijeshkum.mybaseproject.ui.MainViewModel"/>
+    </data>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -22,9 +28,12 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_main" />
+    <include layout="@layout/content_main"
+        android:id="@+id/content_main"
+        bind:viewModel="@{viewModel}"/>
 
     <ProgressBar
+        android:visibility="@{viewModel.loading}"
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

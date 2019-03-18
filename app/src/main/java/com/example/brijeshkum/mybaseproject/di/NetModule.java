@@ -143,7 +143,7 @@ public class NetModule {
       // A queue of Runnables
       BlockingQueue<Runnable> mDecodeWorkQueue;
       // Instantiates the queue of Runnables as a LinkedBlockingQueue
-      mDecodeWorkQueue = new LinkedBlockingQueue<Runnable>();
+      mDecodeWorkQueue = new LinkedBlockingQueue<>();
       // Creates a thread pool manager
         return new ThreadPoolExecutor(
             NUMBER_OF_CORES,       // Initial pool size

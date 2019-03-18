@@ -18,9 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-
 import com.example.brijeshkum.mybaseproject.databinding.ActivityMainBinding;
-import com.example.brijeshkum.mybaseproject.db.Repository;
 import com.example.brijeshkum.mybaseproject.db.model.Country;
 import com.example.brijeshkum.mybaseproject.ui.MainViewModel;
 import com.example.brijeshkum.mybaseproject.ui.ViewModelFactory;
@@ -43,47 +41,35 @@ public class MainActivity extends AppCompatActivity
         final ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         //init View Model
         MainViewModel viewModel = ViewModelProviders.of(this,  mViewModelFactory).get(MainViewModel.class);
-        viewModel.init();
         binding.setViewModel(viewModel);
-        binding.executePendingBindings();
+        binding.setLifecycleOwner(this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.appBarMain.toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
+                this, binding.drawerLayout, binding.appBarMain.toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        binding.drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        viewModel.isLoading().addOnPropertyChangedCallback(new Observable
-            .OnPropertyChangedCallback() {
-            @Override
-            public void onPropertyChanged(Observable sender, int propertyId) {
-                if (viewModel.isLoading().get())
-                    binding.appBarMain.progressBar.setVisibility(View.VISIBLE);
-                else binding.appBarMain.progressBar.setVisibility(View.GONE);
-            }
-        });
+        //NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        binding.navView.setNavigationItemSelectedListener(this);
 
         //load data
         viewModel.getListCountry().observe(this, new Observer<List<Country>>() {
             @Override
             public void onChanged(@Nullable List<Country> countries) {
-                if (countries!=null)
-                Toast.makeText(MainActivity.this, "Got Total Data "+countries.size(), Toast.LENGTH_SHORT).show();
+                if (countries!=null) {
+                    StringBuilder builder = new StringBuilder();
+                    for (Country country :
+                            countries) {
+                        builder.append(country.getName());
+                        builder.append(", ");
+                    }
+                    binding.appBarMain.contentMain.txt.setText("Total countries\n\n " + builder);
+                }
+                //Toast.makeText(MainActivity.this, "Got Total Data "+countries.size(), Toast.LENGTH_SHORT).show();
             }
         });
     }

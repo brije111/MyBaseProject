@@ -1,8 +1,12 @@
 package com.example.brijeshkum.mybaseproject.db;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
+import android.databinding.ObservableBoolean;
+import android.view.View;
 //import android.databinding.ObservableBoolean;
 
+import com.example.brijeshkum.mybaseproject.Utils;
 import com.example.brijeshkum.mybaseproject.db.model.Country;
 
 import java.io.IOException;
@@ -19,16 +23,19 @@ public class Repository {
     private final MyRoomDatabase mMyRoomDatabase;
     private final WebServices mWebServices;
 
-  //private ObservableBoolean isLoading = new ObservableBoolean();
-  //public ObservableBoolean getIsLoading() {
-    //return isLoading;
-  //}
+  private MutableLiveData<Integer> loading = new MutableLiveData<>();
+
+  public MutableLiveData<Integer> getLoading() {
+    return loading;
+  }
 
     @Inject
   public Repository(Executor executor, MyRoomDatabase myRoomDatabase, WebServices webServices) {
     this.executor = executor;
     mMyRoomDatabase = myRoomDatabase;
     mWebServices = webServices;
+
+    loading.setValue(View.GONE);
   }
 
   public LiveData<List<Country>> getCountries() {
@@ -45,23 +52,21 @@ public class Repository {
       //    (FRESH_TIMEOUT);
       //if (!userExists) {
         // Refreshes the data.
-      Response<List<Country>> response = null;
+      //for showing progress on UI
+      loading.postValue(View.VISIBLE);
+      Response<List<Country>> response=null;
       try {
         response = mWebServices.getCountries(4).execute();
       } catch (IOException e) {
         e.printStackTrace();
-        return;
       }
-
+      //for hiding progress on UI
+      loading.postValue(View.GONE);
       // Check for errors here.
-
+        if (response!=null && response.isSuccessful())
         // Updates the database. The LiveData object automatically
         // refreshes, so we don't need to do anything else here.
-        Country[] countries = new Country[response.body().size()];
-        for (int i = 0; i < response.body().size(); i++) {
-          countries[i] = response.body().get(i);
-        }
-        mMyRoomDatabase.countryDao().insertAll(countries);
+        mMyRoomDatabase.countryDao().insertAll(Utils.toArray(response.body()));
       //}
     });
   }

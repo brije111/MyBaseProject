@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout >
+    <data >
+        <import type="android.view.View"/>
+        <variable
+            name="viewModel"
+            type="com.example.brijeshkum.mybaseproject.ui.MainViewModel"/>
+    </data>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,6 +13,7 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".MainActivity"
+    android:id="@+id/content_main"
     tools:showIn="@layout/app_bar_main">
 
     <TextView
@@ -14,3 +22,4 @@
         android:layout_height="match_parent" />
 
 </android.support.constraint.ConstraintLayout>
+</layout>
