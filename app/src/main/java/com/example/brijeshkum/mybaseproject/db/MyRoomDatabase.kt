@@ -13,23 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.example.brijeshkum.mybaseproject.db
 
-package com.example.brijeshkum.mybaseproject.db;
-
-import android.arch.persistence.room.Database;
-import android.arch.persistence.room.RoomDatabase;
-
-import com.example.brijeshkum.mybaseproject.db.dao.CountryDao;
-import com.example.brijeshkum.mybaseproject.db.model.Country;
-
+import androidx.room.Database
+import androidx.room.RoomDatabase
+import com.example.brijeshkum.mybaseproject.db.dao.CountryDao
+import com.example.brijeshkum.mybaseproject.db.model.Country
 
 /**
  * The Room database that contains the Users table
  */
-@Database(entities = {Country.class}, version = 1)
-public abstract class MyRoomDatabase extends android.arch.persistence.room.RoomDatabase {
-
+@Database(entities = [Country::class], version = 1, exportSchema = false)
+abstract class MyRoomDatabase : RoomDatabase() {
     //private static volatile MyRoomDatabase INSTANCE;
-    public abstract CountryDao countryDao();
-
+    abstract fun countryDao(): CountryDao
 }
