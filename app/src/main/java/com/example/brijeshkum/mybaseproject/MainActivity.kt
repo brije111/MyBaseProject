@@ -1,12 +1,11 @@
 package com.example.brijeshkum.mybaseproject
 
+import android.content.Intent
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.databinding.DataBindingUtil
 import android.os.Bundle
 import com.google.android.material.navigation.NavigationView
 import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
@@ -19,9 +18,9 @@ import com.example.brijeshkum.mybaseproject.ui.ViewModelFactory
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-    @JvmField
+    //@JvmField
     @Inject
-    var mViewModelFactory: ViewModelFactory? = null
+    lateinit var mViewModelFactory: ViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +29,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         //init View Model
         //val viewModel = ViewModelProviders.of(this, mViewModelFactory).get(MainViewModel::class.java)
-        val viewModel by viewModels<MainViewModel>()
+        val viewModel by viewModels<MainViewModel>{ mViewModelFactory }
         binding.viewModel = viewModel
         //binding.setLifecycleOwner(this);
         setSupportActionBar(binding.appBarMain.toolbar)
@@ -43,17 +42,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         //NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         binding.navView.setNavigationItemSelectedListener(this)
         //load data
-        viewModel.listCountry!!.observe(this, Observer { countries ->
-            if (countries != null) {
+        viewModel.listContact!!.observe(this, Observer { contacts ->
+            if (contacts != null) {
                 val builder = StringBuilder()
-                for (country in countries) {
-                    builder.append(country?.name)
+                for (contact in contacts) {
+                    builder.append(contact?.firstName)
                     builder.append(", ")
                 }
-                binding.appBarMain.contentMain.txt.text = "Total countries\n\n $builder"
+                binding.appBarMain.contentMain.txt.text = "Total contacts\n\n $builder"
             }
-            //Toast.makeText(MainActivity.this, "Got Total Data "+countries.size(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(MainActivity.this, "Got Total Data "+contacts.size(), Toast.LENGTH_SHORT).show();
         })
+
+        binding.appBarMain.contentMain.home.setOnClickListener {
+            //startActivity(Intent(this, HomeActivity::class.java))
+        }
     }
 
     override fun onBackPressed() {

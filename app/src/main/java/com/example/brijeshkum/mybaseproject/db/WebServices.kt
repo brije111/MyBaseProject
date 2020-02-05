@@ -1,9 +1,8 @@
 package com.example.brijeshkum.mybaseproject.db
 
-import com.example.brijeshkum.mybaseproject.db.model.Country
+import com.example.brijeshkum.mybaseproject.db.model.Contact
 import retrofit2.Call
 import retrofit2.http.GET
-import retrofit2.http.Path
 
 //import com.example.aptcnew.db.model.Individual;
 /**
@@ -24,6 +23,6 @@ import retrofit2.http.Path
 interface WebServices {
     // Request method and URL specified in the annotation
 // Callback for the parsed response is the last parameter
-    @GET("aptc_getCommonMasters/1/{id}")
-    fun getCountries(@Path(value = "id", encoded = true) id: Int): Call<List<Country?>?>
+    @GET("contact")
+    fun getContacts(): Call<List<Contact?>?>
 }

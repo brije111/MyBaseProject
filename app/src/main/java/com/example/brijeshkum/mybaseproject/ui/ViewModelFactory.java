@@ -6,12 +6,13 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.annotation.NonNull;
 
 import com.example.brijeshkum.mybaseproject.db.Repository;
+import com.example.brijeshkum.mybaseproject.db.RepositoryInterface;
 
 public class ViewModelFactory implements ViewModelProvider.Factory {
 
-    private final Repository repository;
-    public ViewModelFactory(Repository repository) {
-        this.repository = repository;
+    private final RepositoryInterface repository;
+    public ViewModelFactory(RepositoryInterface repositoryInterface) {
+        this.repository = repositoryInterface;
     }
 
     @NonNull

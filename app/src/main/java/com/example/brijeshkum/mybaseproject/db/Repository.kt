@@ -4,25 +4,19 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.brijeshkum.mybaseproject.Utils.toArray
-import com.example.brijeshkum.mybaseproject.db.model.Country
+import com.example.brijeshkum.mybaseproject.db.model.Contact
 import retrofit2.Response
 import java.io.IOException
 import java.util.concurrent.Executor
 import javax.inject.Inject
 
 //import android.databinding.ObservableBoolean;
-class Repository @Inject constructor(private val executor: Executor, private val mMyRoomDatabase: MyRoomDatabase, private val mWebServices: WebServices) {
+class Repository @Inject constructor(private val executor: Executor,
+                                     private val mMyRoomDatabase: MyRoomDatabase,
+                                     private val mWebServices: WebServices) :RepositoryInterface {
     val loading = MutableLiveData<Int>()
 
-    // Returns a LiveData object directly from the database.
-    val countries: LiveData<List<Country?>?>?
-        get() {
-            refreshCountry()
-            // Returns a LiveData object directly from the database.
-            return mMyRoomDatabase.countryDao().all
-        }
-
-    private fun refreshCountry() { // Runs in a background thread.
+    private fun refreshContact() { // Runs in a background thread.
         executor.execute {
             // Check if user data was fetched recently.
 //boolean userExists = localRepository.getAppDatabase().countryDao().hasCountries
@@ -31,10 +25,10 @@ class Repository @Inject constructor(private val executor: Executor, private val
 // Refreshes the data.
 //for showing progress on UI
             loading.postValue(View.VISIBLE)
-            var response: Response<List<Country?>?>? = null
+            var response: Response<List<Contact?>?>? = null
             try {
-                response = mWebServices.getCountries(4).execute()
-            } catch (e: IOException) {
+                response = mWebServices.getContacts().execute()
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
             //for hiding progress on UI
@@ -42,7 +36,7 @@ class Repository @Inject constructor(private val executor: Executor, private val
             // Check for errors here.
             if (response != null && response.isSuccessful) // Updates the database. The LiveData object automatically
 // refreshes, so we don't need to do anything else here.
-                mMyRoomDatabase.countryDao().insertAll(*toArray(response.body()!!))
+                mMyRoomDatabase.contactDao().insertAll(*toArray(response.body()!!))
         }
     }
 
@@ -52,5 +46,15 @@ class Repository @Inject constructor(private val executor: Executor, private val
 
     init {
         loading.value = View.GONE
+    }
+
+    override fun getContacts(): LiveData<List<Contact?>?>? {
+        refreshContact()
+        // Returns a LiveData object directly from the database.
+        return mMyRoomDatabase.contactDao().all
+    }
+
+    override fun loading(): MutableLiveData<Int> {
+        return loading
     }
 }

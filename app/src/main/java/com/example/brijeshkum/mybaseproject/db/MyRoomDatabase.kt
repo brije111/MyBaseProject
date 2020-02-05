@@ -17,14 +17,14 @@ package com.example.brijeshkum.mybaseproject.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.example.brijeshkum.mybaseproject.db.dao.CountryDao
-import com.example.brijeshkum.mybaseproject.db.model.Country
+import com.example.brijeshkum.mybaseproject.db.dao.ContactDao
+import com.example.brijeshkum.mybaseproject.db.model.Contact
 
 /**
  * The Room database that contains the Users table
  */
-@Database(entities = [Country::class], version = 1, exportSchema = false)
+@Database(entities = [Contact::class], version = 1, exportSchema = false)
 abstract class MyRoomDatabase : RoomDatabase() {
     //private static volatile MyRoomDatabase INSTANCE;
-    abstract fun countryDao(): CountryDao
+    abstract fun contactDao(): ContactDao
 }

@@ -1,14 +1,14 @@
 package com.example.brijeshkum.mybaseproject
 
-import com.example.brijeshkum.mybaseproject.db.model.Country
+import com.example.brijeshkum.mybaseproject.db.model.Contact
 
 object Utils {
     @JvmStatic
-    fun toArray(list: List<Country?>): Array<Country?> {
-        val countries = arrayOfNulls<Country>(list.size)
+    fun toArray(list: List<Contact?>): Array<Contact?> {
+        val contacts = arrayOfNulls<Contact>(list.size)
         for (i in list.indices) {
-            countries[i] = list[i]
+            contacts[i] = list[i]
         }
-        return countries
+        return contacts
     }
 }
