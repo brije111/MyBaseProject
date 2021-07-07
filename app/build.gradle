@@ -4,11 +4,11 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 30
     defaultConfig {
         applicationId "com.example.brijeshkum.mybaseproject"
-        minSdkVersion 15
-        targetSdkVersion 28
+        minSdkVersion 21
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -67,7 +67,7 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-core:2.8.1'
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.8.1'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.8.1'
-    implementation 'com.google.dagger:dagger-android:2.20'
+    implementation 'com.google.dagger:dagger-android:2.35.1'
     implementation 'com.google.dagger:dagger-android-support:2.20'
     // if you use the support libraries
     kapt 'com.google.dagger:dagger-android-processor:2.20'
